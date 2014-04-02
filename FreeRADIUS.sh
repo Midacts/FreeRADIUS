@@ -639,15 +639,6 @@ function freeradiusCerts()
 		make server.csr
 		echo
 		echo -e '\e[01;37;42mca and server certificates have been successfully created!\e[0m'
-
-	# Restarts that pesky winbind service (It occasionally likes to break and say it has an error unless you restart it)
-		echo
-		echo -e '\e[01;34m+++ Restarting the Samba service...\e[0m'
-		echo
-		service winbind restart
-		echo
-		echo -e '\e[01;37;42mThe Samba service has been successfully restarted!\e[0m'
-		echo
 }
 function freeradiusClient()
 {
@@ -655,6 +646,7 @@ function freeradiusClient()
 		echo -e '\e[33mPlease type in the IP of the client (the AP you want to use WPA-Enterprise with):\e[0m'
 		echo -e '\e[33;01mFor Example:  192.168.1.5\e[0m'
 		read client_ip
+		echo
 		echo -e '\e[33mPlease type in the secret for your client :\e[0m'
 		echo -e '\e[33;01mFor Example:  testing123\e[0m'
 		read secret
@@ -666,6 +658,15 @@ client $client_ip {
         nas_type = other
 }
 EOI
+
+	# Restarts that pesky winbind service (It occasionally likes to break and say it has an error unless you restart it)
+		echo
+		echo -e '\e[01;34m+++ Restarting the Samba service...\e[0m'
+		echo
+		service winbind restart
+		echo
+		echo -e '\e[01;37;42mThe Samba service has been successfully restarted!\e[0m'
+		echo
 }
 function doAll()
 {
