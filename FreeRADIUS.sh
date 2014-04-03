@@ -507,7 +507,21 @@ function freeradiusInstall()
 		echo
 		useradd -G winbindd_priv radiusd
 		echo -e '\e[01;37;42mThe radiud user has been added to the winbindd_priv group!\e[0m'
+		
+	# Grant the FreeRADIUS user access to the winbindd_priv group
 		echo
+		echo -e '\e[34;01m+++ Setting up the FreeRADIUS init script...\e[0m'
+		echo
+		cp debian/freeradius.init /etc/init.d/radiusd
+		sed -i 's@PROG="freeradius"@PROG="radiusd"@g' /etc/init.d/radiusd
+		sed -i 's@PROGRAM="/usr/sbin/freeradius"@PROGRAM="/usr/local/sbin/radiusd"@g' /etc/init.d/radiusd
+		sed -i 's@PIDFILE="/var/run/freeradius/freeradius.pid"@PIDFILE="/var/run/freeradius/radiusd.pid"@g' /etc/init.d/radiusd
+		sed -i 's@chown freerad:freerad /var/run/freeradius@chown radiusd:radiusd /var/run/freeradiusd@g' /etc/init.d/radiusd
+		update-rc.d radiusd defaults
+		echo
+		echo -e '\e[01;37;42mThe FreeRADIUS init script has been setup!\e[0m'
+		echo
+		
 }
 function configureFreeradius()
 {
