@@ -1,4 +1,4 @@
-FreeRADIUS
+FreeRADIUS - using PEAP
 ==========
 
 The only problem I have ran into is when you intially run radiusd -X after running this script, sometimes winbind chokes
